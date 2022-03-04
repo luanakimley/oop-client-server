@@ -13,22 +13,60 @@ public class App
         System.out.println( "Hello World!" );
         System.out.println("Project part 1 - CA5");
         List<Player> playersList = new ArrayList<>();
-        initialise(playersList);
-        displayPlayerList(playersList);
-    }
 
-    private static void initialise(List list)
-    {
-        list.add(new Player("Kevin Sanjaya Sukamuljo", "Indonesia", 1995, 8, 2, 1.7, Sector.MENS_DOUBLE, 1));
-        list.add(new Player("Viktor Axelsen", "Denmark", 1994, 1, 4, 1.94, Sector.MENS_SINGLES, 1));
-        list.add(new Player("Tai Tzu Ying", "Chinese Taipei", 1994, 6, 20, 1.63, Sector.WOMENS_SINGLE, 1));
-        list.add(new Player("Praveen Jordan", "Indonesia", 1993, 4, 26, 1.63, Sector.WOMENS_SINGLE, 1));
-        list.add(new Player("Carolina Marin", "Spain", 1993, 6, 15, 1.72, Sector.WOMENS_SINGLE, 6));
-        list.add(new Player("Chou Tien Chen", "Chinese Taipei", 1990, 1, 8, 1.8, Sector.MENS_SINGLES, 4));
-        list.add(new Player("Anders Antonsen", "Denmark", 1997, 4, 27, 1.83, Sector.MENS_SINGLES, 3));
-        list.add(new Player("Chen Qing Chen", "China", 1997, 6, 23, 1.64, Sector.WOMENS_DOUBLE, 1));
-        list.add(new Player("Lee Zii Jia", "Malaysia", 1998, 3, 29, 1.86, Sector.MENS_SINGLES, 7));
-        list.add(new Player("Greysia Polii", "Indonesia", 1987, 8, 11, 1.6, Sector.WOMENS_DOUBLE, 6));
+        Map<Integer, Player> playersHashMap = new HashMap<>();
+
+        initialise(playersList, playersHashMap);
+
+
+        final String MENU_ITEMS = "\n*** MAIN MENU OF OPTIONS ***\n"
+                + "1. Display all players\n"
+                + "2. Retrieve player by ID\n"
+                + "3. Display players in order of...\n"
+                + "4. Exit\n"
+                + "Enter Option [1,4]";
+
+        final int DISPLAY_ALL_PLAYERS = 1;
+        final int RETRIEVE_PLAYER_BY_ID = 2;
+        final int DISPLAY_PLAYERS_IN_ORDER = 3;
+        final int EXIT = 4;
+
+        Scanner keyboard = new Scanner(System.in);
+        int option = 0;
+        do
+        {
+            System.out.println("\n" + MENU_ITEMS);
+            try
+            {
+                String usersInput = keyboard.nextLine();
+                option = Integer.parseInt(usersInput);
+                switch (option)
+                {
+                    case DISPLAY_ALL_PLAYERS:
+                        System.out.println("\nDisplay all players option chosen");
+                        displayPlayerList(playersList);
+                        break;
+                    case RETRIEVE_PLAYER_BY_ID:
+                        System.out.println("\nRetrieve player by ID option chosen");
+                        retrievePlayerByIdOption(playersHashMap);
+                        break;
+                    case DISPLAY_PLAYERS_IN_ORDER:
+                        System.out.println("\nDisplay players in order option chosen");
+                        break;
+                    case EXIT:
+                        System.out.println("\nExiting app, goodbye.");
+                        break;
+                    default:
+                        System.out.print("Invalid input - please enter number in range");
+                        break;
+                }
+
+            } catch (InputMismatchException | NumberFormatException e)
+            {
+                System.out.print("Invalid input - please enter number in range");
+            }
+        } while (option != EXIT);
+
 
     }
 
