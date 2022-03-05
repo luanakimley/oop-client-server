@@ -1,6 +1,7 @@
 package dkit.oop;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 public class Player
 {
@@ -83,6 +84,21 @@ public class Player
     public void setWorldRank(int worldRank)
     {
         this.worldRank = worldRank;
+    }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Player player = (Player) o;
+        return worldRank == player.worldRank && name.equals(player.name) && Objects.equals(nationality, player.nationality) && Objects.equals(dateOfBirth, player.dateOfBirth);
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(name, nationality, dateOfBirth, worldRank);
     }
 
     @Override

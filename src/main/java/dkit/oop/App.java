@@ -10,7 +10,6 @@ public class App
 {
     public static void main( String[] args )
     {
-        System.out.println( "Hello World!" );
         System.out.println("Project part 1 - CA5");
         menu();
     }
@@ -18,15 +17,17 @@ public class App
     public static void menu() {
         List<Player> playersList = new ArrayList<>();
 
-        Map<Integer, Player> playersHashMap = new HashMap<>();
+        Map<Integer, Player> playerIdMap = new HashMap<>();
 
-        initialise(playersList, playersHashMap);
+        Map<Player, Racket> playerRacketMap = new TreeMap<>(new ComparatorPlayerNationality());
+
+        initialise(playersList, playerIdMap, playerRacketMap);
 
 
         final String MENU_ITEMS = "\n*** MAIN MENU OF OPTIONS ***\n"
                 + "1. Display all players\n"
                 + "2. Retrieve player by ID\n"
-                + "3. Display players in order of...\n"
+                + "3. Display players and racket in order of nationality\n"
                 + "4. Exit\n"
                 + "Enter Option [1,4]";
 
@@ -52,10 +53,11 @@ public class App
                         break;
                     case RETRIEVE_PLAYER_BY_ID:
                         System.out.println("\nRetrieve player by ID option chosen");
-                        retrievePlayerByIdOption(playersHashMap);
+                        retrievePlayerByIdOption(playerIdMap);
                         break;
                     case DISPLAY_PLAYERS_IN_ORDER:
-                        System.out.println("\nDisplay players in order option chosen");
+                        System.out.println("\nDisplay players and the racket they use in order of player nationality");
+                        displayPlayerRacketByNationality(playerRacketMap);
                         break;
                     case EXIT:
                         System.out.println("\nExiting app, goodbye.");
@@ -74,7 +76,7 @@ public class App
 
     }
 
-    private static void initialise(List<Player> list, Map<Integer, Player> map)
+    private static void initialise(List<Player> list, Map<Integer, Player> playerIdMap, Map<Player, Racket> playerRacketMap)
     {
         Player p1 = new Player("Kevin Sanjaya Sukamuljo", "Indonesia", 1995, 8, 2, 1.7, Sector.MENS_DOUBLE, 1);
         Player p2 = new Player("Viktor Axelsen", "Denmark", 1994, 1, 4, 1.94, Sector.MENS_SINGLES, 1);
@@ -98,17 +100,36 @@ public class App
         list.add(p9);
         list.add(p10);
 
-        map.put(1001, p1);
-        map.put(1002, p2);
-        map.put(1003, p3);
-        map.put(1004, p4);
-        map.put(1005, p5);
-        map.put(1006, p6);
-        map.put(1007, p7);
-        map.put(1008, p8);
-        map.put(1009, p9);
-        map.put(1010, p10);
+        playerIdMap.put(1001, p1);
+        playerIdMap.put(1002, p2);
+        playerIdMap.put(1003, p3);
+        playerIdMap.put(1004, p4);
+        playerIdMap.put(1005, p5);
+        playerIdMap.put(1006, p6);
+        playerIdMap.put(1007, p7);
+        playerIdMap.put(1008, p8);
+        playerIdMap.put(1009, p9);
+        playerIdMap.put(1010, p10);
 
+        Racket yonexAstrox88s = new Racket("Yonex", "Astrox 88s");
+        Racket yonexDuoraZStrike = new Racket("Yonex", "Duora Z Strike");
+        Racket victorThrusterF = new Racket("Victor", "Thruster F");
+        Racket liningTurbo = new Racket("Lining", "Turbo Charging 75 EX");
+        Racket victorAuraspeed = new Racket("Victor", "Auraspeed 90K");
+        Racket liningFlame = new Racket("Lining", "Flame N50");
+        Racket yonexAstrox99Pro = new Racket("Yonex", "Astrox 99 Pro");
+        Racket victorDX9X = new Racket("Victor", "DX-9X");
+
+        playerRacketMap.put(p1, yonexAstrox88s);
+        playerRacketMap.put(p2, yonexDuoraZStrike);
+        playerRacketMap.put(p3, victorThrusterF);
+        playerRacketMap.put(p4, liningTurbo);
+        playerRacketMap.put(p5, yonexDuoraZStrike);
+        playerRacketMap.put(p6, yonexDuoraZStrike);
+        playerRacketMap.put(p7, victorAuraspeed);
+        playerRacketMap.put(p8, liningFlame);
+        playerRacketMap.put(p9, yonexAstrox99Pro);
+        playerRacketMap.put(p10, victorDX9X);
 
     }
 
@@ -148,6 +169,26 @@ public class App
 
     private static Player retrievePlayerById(Map<Integer, Player> map, int id) {
         return map.get(id);
+    }
+
+    private static void displayPlayerRacketByNationality(Map<Player, Racket> map) {
+        System.out.printf("%-40s%-30s%-18s%-14s%-20s%-16s%-21s\n", "Name", "Nationality", "Date of Birth", "Height", "Sector", "World Rank", "Racket Used");
+        System.out.println("====================================    ==========================    ==============    ==========    ================    ============    ==========================");
+
+        for (Map.Entry<Player, Racket> entry : map.entrySet()) {
+            Player p = entry.getKey();
+            Racket r = entry.getValue();
+                System.out.printf("%-40s%-30s%-18s%-14s%-20s%-16s%-21s\n",
+                        p.getName(),
+                        p.getNationality(),
+                        p.getDateOfBirth(),
+                        p.getHeight() + " m",
+                        p.getSector(),
+                        p.getWorldRank(),
+                        r.getBrand() + " - " + r.getType()
+                        );
+
+        }
     }
 
 }
