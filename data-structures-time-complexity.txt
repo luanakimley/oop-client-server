@@ -1,0 +1,19 @@
+Data Structures Operation and Time Complexity
+
+ArrayList
+- insertion [add()]: O(1)
+- lookup [get()]: O(1)
+ 
+HashMap
+- insertion [put()]: O(1)
+- lookup [get()]: O(1)
+
+TreeMap
+- insertion [put()]: O(log n)
+- lookup [get()]: O(log n)
+
+PriorityQueue
+- insertion [add()]: O(log n)
+- deletion [remove()]: O(n)
+- iteration [while (iterator.hasNext())]: O(n)
+ 
