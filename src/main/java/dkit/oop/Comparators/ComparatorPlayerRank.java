@@ -1,4 +1,6 @@
-package dkit.oop;
+package dkit.oop.Comparators;
+
+import dkit.oop.DTOs.Player;
 
 import java.util.Comparator;
 

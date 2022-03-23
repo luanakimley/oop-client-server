@@ -1,4 +1,4 @@
-package dkit.oop;
+package dkit.oop.DTOs;
 
 import java.time.LocalDate;
 import java.util.Objects;
@@ -21,6 +21,16 @@ public class Player
         this.name = name;
         this.nationality = nationality;
         this.dateOfBirth = LocalDate.of(year, month, date);
+        this.height = height;
+        this.sector = sector;
+        this.worldRank = worldRank;
+    }
+
+    public Player(String name, String nationality, LocalDate date, double height, Sector sector, int worldRank)
+    {
+        this.name = name;
+        this.nationality = nationality;
+        this.dateOfBirth = date;
         this.height = height;
         this.sector = sector;
         this.worldRank = worldRank;

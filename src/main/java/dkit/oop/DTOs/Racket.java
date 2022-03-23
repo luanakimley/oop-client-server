@@ -1,4 +1,4 @@
-package dkit.oop;
+package dkit.oop.DTOs;
 
 import java.util.Objects;
 
