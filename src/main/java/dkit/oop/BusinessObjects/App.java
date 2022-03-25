@@ -1,4 +1,13 @@
-package dkit.oop;
+package dkit.oop.BusinessObjects;
+
+import dkit.oop.Comparators.ComparatorPlayerNationality;
+import dkit.oop.Comparators.ComparatorPlayerRank;
+import dkit.oop.Comparators.ComparatorPlayerRankWithinNationality;
+import dkit.oop.DAOs.MySqlPlayerDAO;
+import dkit.oop.DTOs.Player;
+import dkit.oop.DTOs.Racket;
+import dkit.oop.DTOs.Sector;
+import dkit.oop.Exceptions.DAOException;
 
 import java.util.*;
 
@@ -93,16 +102,16 @@ public class App
 
     private static void initialise(List<Player> list, Map<Integer, Player> playerIdMap, Map<Player, Racket> playerRacketMap, Queue<Player> playerPriorityQueue)
     {
-        Player p1 = new Player("Kevin Sanjaya Sukamuljo", "Indonesia", 1995, 8, 2, 1.7, Sector.MENS_DOUBLE, 1);
-        Player p2 = new Player("Viktor Axelsen", "Denmark", 1994, 1, 4, 1.94, Sector.MENS_SINGLES, 1);
-        Player p3 = new Player("Tai Tzu Ying", "Chinese Taipei", 1994, 6, 20, 1.63, Sector.WOMENS_SINGLE, 1);
-        Player p4 = new Player("Praveen Jordan", "Indonesia", 1993, 4, 26, 1.63, Sector.MIXED_DOUBLES, 5);
-        Player p5 = new Player("Carolina Marin", "Spain", 1993, 6, 15, 1.72, Sector.WOMENS_SINGLE, 6);
-        Player p6 = new Player("Chou Tien Chen", "Chinese Taipei", 1990, 1, 8, 1.8, Sector.MENS_SINGLES, 4);
-        Player p7 = new Player("Anders Antonsen", "Denmark", 1997, 4, 27, 1.83, Sector.MENS_SINGLES, 3);
-        Player p8 = new Player("Chen Qing Chen", "China", 1997, 6, 23, 1.64, Sector.WOMENS_DOUBLE, 1);
-        Player p9 = new Player("Lee Zii Jia", "Malaysia", 1998, 3, 29, 1.86, Sector.MENS_SINGLES, 7);
-        Player p10 = new Player("Greysia Polii", "Indonesia", 1987, 8, 11, 1.6, Sector.WOMENS_DOUBLE, 6);
+        Player p1 = new Player(1,"Kevin Sanjaya Sukamuljo", "Indonesia", 1995, 8, 2, 1.7, Sector.MENS_DOUBLE, 1);
+        Player p2 = new Player(2,"Viktor Axelsen", "Denmark", 1994, 1, 4, 1.94, Sector.MENS_SINGLES, 1);
+        Player p3 = new Player(3,"Tai Tzu Ying", "Chinese Taipei", 1994, 6, 20, 1.63, Sector.WOMENS_SINGLE, 1);
+        Player p4 = new Player(4,"Praveen Jordan", "Indonesia", 1993, 4, 26, 1.63, Sector.MIXED_DOUBLES, 5);
+        Player p5 = new Player(5,"Carolina Marin", "Spain", 1993, 6, 15, 1.72, Sector.WOMENS_SINGLE, 6);
+        Player p6 = new Player(6,"Chou Tien Chen", "Chinese Taipei", 1990, 1, 8, 1.8, Sector.MENS_SINGLES, 4);
+        Player p7 = new Player(7,"Anders Antonsen", "Denmark", 1997, 4, 27, 1.83, Sector.MENS_SINGLES, 3);
+        Player p8 = new Player(8,"Chen Qing Chen", "China", 1997, 6, 23, 1.64, Sector.WOMENS_DOUBLE, 1);
+        Player p9 = new Player(9,"Lee Zii Jia", "Malaysia", 1998, 3, 29, 1.86, Sector.MENS_SINGLES, 7);
+        Player p10 = new Player(10,"Greysia Polii", "Indonesia", 1987, 8, 11, 1.6, Sector.WOMENS_DOUBLE, 6);
 
         list.add(p1);
         list.add(p2);
@@ -218,11 +227,11 @@ public class App
     }
 
     private static void priorityQueueSequenceSimulation(Queue<Player> playerPriorityQueue) {
-        Player p1 = new Player("Kevin Sanjaya Sukamuljo", "Indonesia", 1995, 8, 2, 1.7, Sector.MENS_DOUBLE, 1);
-        Player p5 = new Player("Carolina Marin", "Spain", 1993, 6, 15, 1.72, Sector.WOMENS_SINGLE, 6);
-        Player p6 = new Player("Chou Tien Chen", "Chinese Taipei", 1990, 1, 8, 1.8, Sector.MENS_SINGLES, 4);
-        Player p7 = new Player("Anders Antonsen", "Denmark", 1997, 4, 27, 1.83, Sector.MENS_SINGLES, 3);
-        Player p10 = new Player("Greysia Polii", "Indonesia", 1987, 8, 11, 1.6, Sector.WOMENS_DOUBLE, 6);
+        Player p1 = new Player(1,"Kevin Sanjaya Sukamuljo", "Indonesia", 1995, 8, 2, 1.7, Sector.MENS_DOUBLE, 1);
+        Player p5 = new Player(2,"Carolina Marin", "Spain", 1993, 6, 15, 1.72, Sector.WOMENS_SINGLE, 6);
+        Player p6 = new Player(3,"Chou Tien Chen", "Chinese Taipei", 1990, 1, 8, 1.8, Sector.MENS_SINGLES, 4);
+        Player p7 = new Player(4,"Anders Antonsen", "Denmark", 1997, 4, 27, 1.83, Sector.MENS_SINGLES, 3);
+        Player p10 = new Player(5,"Greysia Polii", "Indonesia", 1987, 8, 11, 1.6, Sector.WOMENS_DOUBLE, 6);
 
         System.out.println("\nPriority queue sequence simulation option chosen");
 
