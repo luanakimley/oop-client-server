@@ -5,6 +5,7 @@ import java.util.Objects;
 
 public class Player
 {
+    private int id;
     private String name;
     private String nationality;
     private LocalDate dateOfBirth;
@@ -16,8 +17,9 @@ public class Player
     {
     }
 
-    public Player(String name, String nationality, int year, int month, int date, double height, Sector sector, int worldRank)
+    public Player(int id, String name, String nationality, int year, int month, int date, double height, Sector sector, int worldRank)
     {
+        this.id = id;
         this.name = name;
         this.nationality = nationality;
         this.dateOfBirth = LocalDate.of(year, month, date);
@@ -26,14 +28,25 @@ public class Player
         this.worldRank = worldRank;
     }
 
-    public Player(String name, String nationality, LocalDate date, double height, Sector sector, int worldRank)
+    public Player(int id, String name, String nationality, LocalDate date, double height, Sector sector, int worldRank)
     {
+        this.id = id;
         this.name = name;
         this.nationality = nationality;
         this.dateOfBirth = date;
         this.height = height;
         this.sector = sector;
         this.worldRank = worldRank;
+    }
+
+    public int getId()
+    {
+        return id;
+    }
+
+    public void setId(int id)
+    {
+        this.id = id;
     }
 
     public String getName()
