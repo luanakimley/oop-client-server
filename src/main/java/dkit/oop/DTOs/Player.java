@@ -13,13 +13,20 @@ public class Player
     private Sector sector;
     private int worldRank;
 
-    public Player()
-    {
-    }
-
     public Player(int id, String name, String nationality, int year, int month, int date, double height, Sector sector, int worldRank)
     {
         this.id = id;
+        this.name = name;
+        this.nationality = nationality;
+        this.dateOfBirth = LocalDate.of(year, month, date);
+        this.height = height;
+        this.sector = sector;
+        this.worldRank = worldRank;
+    }
+
+    public Player(String name, String nationality, int year, int month, int date, double height, Sector sector, int worldRank)
+    {
+        this.id = 0;
         this.name = name;
         this.nationality = nationality;
         this.dateOfBirth = LocalDate.of(year, month, date);
