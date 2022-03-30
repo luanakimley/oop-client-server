@@ -15,4 +15,6 @@ public interface PlayerDAOInterface
 
     public void addPlayer(Player player) throws  DAOException;
 
+    public List<Player> findPlayersByNationality(String nationality) throws DAOException;
+
 }

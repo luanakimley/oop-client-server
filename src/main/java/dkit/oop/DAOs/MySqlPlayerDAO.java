@@ -214,5 +214,65 @@ public class MySqlPlayerDAO extends MySqlDAO implements PlayerDAOInterface
         }
     }
 
+    @Override
+    public List<Player> findPlayersByNationality(String nationality) throws DAOException
+    {
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet resultSet = null;
+        List<Player> playersList = new ArrayList<>();
+
+        try
+        {
+            //Get connection object using the methods in the super class (MySqlDao.java)...
+            connection = this.getConnection();
+
+            String query = "SELECT * FROM player WHERE nationality = ?";
+            ps = connection.prepareStatement(query);
+
+            ps.setString(1, nationality);
+
+
+            //Using a PreparedStatement to execute SQL...
+            resultSet = ps.executeQuery();
+            while (resultSet.next())
+            {
+                int playerId = resultSet.getInt("player_id");
+                String name = resultSet.getString("name");
+                String playerNationality = resultSet.getString("nationality");
+                LocalDate date_of_birth = LocalDate.parse(resultSet.getString("date_of_birth"));
+                double height = resultSet.getDouble("height");
+                Sector sector = Sector.valueOf(resultSet.getString("sector"));
+                int worldRank = resultSet.getInt("world_rank");
+                Player p = new Player(playerId, name, playerNationality, date_of_birth, height, sector, worldRank);
+                playersList.add(p);
+            }
+        } catch (SQLException e)
+        {
+            throw new DAOException("findPlayersByNationality() " + e.getMessage());
+        } finally
+        {
+            try
+            {
+                if (resultSet != null)
+                {
+                    resultSet.close();
+                }
+                if (ps != null)
+                {
+                    ps.close();
+                }
+                if (connection != null)
+                {
+                    freeConnection(connection);
+                }
+            } catch (SQLException e)
+            {
+                throw new DAOException("findPlayersByNationality() " + e.getMessage());
+            }
+        }
+        return playersList;     // may be empty
+    }
+
 
 }
