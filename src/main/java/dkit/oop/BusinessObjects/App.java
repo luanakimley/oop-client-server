@@ -9,6 +9,7 @@ import dkit.oop.DTOs.Racket;
 import dkit.oop.DTOs.Sector;
 import dkit.oop.Exceptions.DAOException;
 
+
 import java.time.LocalDate;
 import java.util.*;
 
@@ -21,6 +22,7 @@ public class App
     public static void main( String[] args )
     {
         System.out.println("OOP Project - CA5");
+
         mainMenu();
     }
     
@@ -144,6 +146,85 @@ public class App
             }
         } while (option != EXIT);
 
+
+    }
+
+    public static void part2Menu()
+    {
+        MySqlPlayerDAO IPlayerDAO = new MySqlPlayerDAO();
+
+        final String MENU_ITEMS = "\n*** PART 2 DELIVERABLE ***\n"
+                + "1. Find all players\n"
+                + "2. Retrieve player by ID\n"
+                + "3. Delete by ID\n"
+                + "4. Add player\n"
+                + "5. Find players by nationality\n"
+                + "6. Retrieve all players as JSON\n"
+                + "7. Retrieve player by ID as JSON\n"
+                + "8. Back to main menu\n"
+                + "Enter Option [1,8]";
+
+        final int FIND_ALL_PLAYERS = 1;
+        final int RETRIEVE_PLAYER_BY_ID = 2;
+        final int DELETE_BY_ID = 3;
+        final int ADD_PLAYER = 4;
+        final int FIND_PLAYERS_BY_NATIONALITY = 5;
+        final int RETRIEVE_ALL_PLAYERS_JSON = 6;
+        final int RETRIEVE_PLAYER_BY_ID_JSON = 7;
+        final int EXIT = 8;
+
+        Scanner keyboard = new Scanner(System.in);
+        int option = 0;
+        do
+        {
+            System.out.println(MENU_ITEMS);
+            try
+            {
+                String usersInput = keyboard.nextLine();
+                option = Integer.parseInt(usersInput);
+                switch (option)
+                {
+                    case FIND_ALL_PLAYERS:
+                        System.out.println("\nFind all players option chosen");
+                        findAllPlayersOption(IPlayerDAO);
+                        break;
+                    case RETRIEVE_PLAYER_BY_ID:
+                        System.out.println("\nRetrieve player by ID option chosen");
+                        retrievePlayerByIdOption(IPlayerDAO);
+                        break;
+                    case DELETE_BY_ID:
+                        System.out.println("\nDelete by ID option chosen");
+                        deleteByIdOption(IPlayerDAO);
+                        break;
+                    case ADD_PLAYER:
+                        System.out.println("\nAdd player option chosen");
+                        addPlayerOption(IPlayerDAO);
+                        break;
+                    case FIND_PLAYERS_BY_NATIONALITY:
+                        System.out.println("\nFind players by nationality option chosen");
+                        findPlayersByNationalityOption(IPlayerDAO);
+                        break;
+                    case RETRIEVE_ALL_PLAYERS_JSON:
+                        System.out.println("\nRetrieve all players ad JSON option chosen");
+                        retrieveAllPlayersJsonOption(IPlayerDAO);
+                        break;
+                    case RETRIEVE_PLAYER_BY_ID_JSON:
+                        System.out.println("Retrieve player by ID as JSON option chosen");
+                        retrievePlayerByIdJsonOption(IPlayerDAO);
+                        break;
+                    case EXIT:
+                        System.out.println("\nBack to main menu option chosen.");
+                        break;
+                    default:
+                        System.out.print("\nInvalid input - please enter number in range");
+                        break;
+                }
+
+            } catch (InputMismatchException | NumberFormatException e)
+            {
+                System.out.print("\nInvalid input - please enter valid input");
+            }
+        } while (option != EXIT);
 
     }
 
@@ -314,78 +395,14 @@ public class App
         }
     }
 
-    public static void part2Menu()
-    {
-        MySqlPlayerDAO IPlayerDAO = new MySqlPlayerDAO();
-
-        final String MENU_ITEMS = "\n*** PART 2 DELIVERABLE ***\n"
-                + "1. Find all players\n"
-                + "2. Retrieve player by ID\n"
-                + "3. Delete by ID\n"
-                + "4. Add player\n"
-                + "5. Find players by nationality\n"
-                + "6. Back to main menu\n"
-                + "Enter Option [1,6]";
-
-        final int FIND_ALL_PLAYERS = 1;
-        final int RETRIEVE_PLAYER_BY_ID = 2;
-        final int DELETE_BY_ID = 3;
-        final int ADD_PLAYER = 4;
-        final int FIND_PLAYERS_BY_NATIONALITY = 5;
-        final int EXIT = 6;
-
-        Scanner keyboard = new Scanner(System.in);
-        int option = 0;
-        do
-        {
-            System.out.println(MENU_ITEMS);
-            try
-            {
-                String usersInput = keyboard.nextLine();
-                option = Integer.parseInt(usersInput);
-                switch (option)
-                {
-                    case FIND_ALL_PLAYERS:
-                        System.out.println("\nFind all players option chosen");
-                        findAllPlayersOption(IPlayerDAO);
-                        break;
-                    case RETRIEVE_PLAYER_BY_ID:
-                        System.out.println("\nRetrieve player by ID option chosen");
-                        retrievePlayerByIdOption(IPlayerDAO);
-                        break;
-                    case DELETE_BY_ID:
-                        System.out.println("\nDelete by ID option chosen");
-                        deleteByIdOption(IPlayerDAO);
-                        break;
-                    case ADD_PLAYER:
-                        System.out.println("\nAdd player option chosen");
-                        addPlayerOption(IPlayerDAO);
-                        break;
-                    case FIND_PLAYERS_BY_NATIONALITY:
-                        System.out.println("\nFind players by nationality option chosen");
-                        findPlayersByNationalityOption(IPlayerDAO);
-                        break;
-                    case EXIT:
-                        System.out.println("\nBack to main menu option chosen.");
-                        break;
-                    default:
-                        System.out.print("\nInvalid input - please enter number in range");
-                        break;
-                }
-
-            } catch (InputMismatchException | NumberFormatException e)
-            {
-                System.out.print("\nInvalid input - please enter valid input");
-            }
-        } while (option != EXIT);
-
-    }
-
     private static void findAllPlayersOption(MySqlPlayerDAO IPlayerDAO)
     {
         try
         {
             List<Player> playersList = IPlayerDAO.findAllPlayers();
+
+            System.out.println(IPlayerDAO.findAllPlayersJson());
+
             System.out.printf("%-7s%-40s%-30s%-18s%-14s%-20s%-17s\n", "ID", "Name", "Nationality", "Date of Birth", "Height", "Sector", "World Rank");
             System.out.println("====   ====================================    ==========================    ==============    ==========    ================    ============");
             for(Player p : playersList)
@@ -590,7 +607,7 @@ public class App
             List<Player> players = IPlayerDAO.findPlayersByNationality(nationality);
             if (players != null)
             {
-                System.out.println("Player(s) with nationality " + nationality + " found");
+                System.out.println("Player(s) with nationality " + nationality + " found (sorted by world rank)");
                 System.out.printf("%-7s%-40s%-30s%-18s%-14s%-20s%-17s\n", "ID", "Name", "Nationality", "Date of Birth", "Height", "Sector", "World Rank");
                 System.out.println("====   ====================================    ==========================    ==============    ==========    ================    ============");
                 for(Player player : players)
@@ -607,6 +624,45 @@ public class App
             }
             else
                 System.out.println("Player with nationality " + nationality + " not found");
+        }
+        catch (DAOException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    private static void retrieveAllPlayersJsonOption(MySqlPlayerDAO IPlayerDAO)
+    {
+        try
+        {
+            System.out.println("Displaying all players as JSON string:");
+            System.out.println(IPlayerDAO.findAllPlayersJson());
+
+        }
+        catch( DAOException e )
+        {
+            e.printStackTrace();
+        }
+    }
+
+    private static void retrievePlayerByIdJsonOption(MySqlPlayerDAO IPlayerDAO)
+    {
+        Scanner keyboard = new Scanner(System.in);
+
+        System.out.println("Enter player ID: ");
+        int id = keyboard.nextInt();
+
+        try
+        {
+
+            Player player = IPlayerDAO.findPlayerById(id);
+            if (player != null)
+            {
+                System.out.println("Player found, displaying player as JSON string:");
+                System.out.println(IPlayerDAO.findPlayerByIdJson(id));
+            }
+            else
+                System.out.println("Player with id " + id + " not found");
         }
         catch (DAOException e)
         {
