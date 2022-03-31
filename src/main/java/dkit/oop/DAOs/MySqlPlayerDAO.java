@@ -227,7 +227,7 @@ public class MySqlPlayerDAO extends MySqlDAO implements PlayerDAOInterface
             //Get connection object using the methods in the super class (MySqlDao.java)...
             connection = this.getConnection();
 
-            String query = "SELECT * FROM player WHERE nationality = ?";
+            String query = "SELECT * FROM player WHERE nationality = ? ORDER BY world_rank";
             ps = connection.prepareStatement(query);
 
             ps.setString(1, nationality);
