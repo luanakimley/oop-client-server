@@ -285,5 +285,12 @@ public class MySqlPlayerDAO extends MySqlDAO implements PlayerDAOInterface
         return gsonParser.toJson(findAllPlayers());
     }
 
+    @Override
+    public String findPlayerByIdJson(int id) throws DAOException
+    {
+        Gson gsonParser =  Converters.registerLocalDate(new GsonBuilder()).create();
+
+        return gsonParser.toJson(findPlayerById(id));
+    }
 
 }
