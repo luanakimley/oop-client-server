@@ -1,5 +1,8 @@
 package dkit.oop.DAOs;
 
+import com.fatboyindustrial.gsonjavatime.Converters;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import dkit.oop.DTOs.Player;
 import dkit.oop.DTOs.Sector;
 import dkit.oop.Exceptions.DAOException;
@@ -272,6 +275,14 @@ public class MySqlPlayerDAO extends MySqlDAO implements PlayerDAOInterface
             }
         }
         return playersList;     // may be empty
+    }
+
+    @Override
+    public String findAllPlayersJson() throws DAOException
+    {
+        Gson gsonParser =  Converters.registerLocalDate(new GsonBuilder()).create();
+
+        return gsonParser.toJson(findAllPlayers());
     }
 
 

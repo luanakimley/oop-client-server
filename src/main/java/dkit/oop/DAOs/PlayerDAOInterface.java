@@ -17,4 +17,5 @@ public interface PlayerDAOInterface
 
     public List<Player> findPlayersByNationality(String nationality) throws DAOException;
 
+    public String findAllPlayersJson() throws DAOException;
 }
