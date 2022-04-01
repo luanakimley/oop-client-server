@@ -130,7 +130,7 @@ public class MySqlPlayerDAO extends MySqlDAO implements PlayerDAOInterface
     }
 
     @Override
-    public void deleteById(int id) throws DAOException
+    public void deletePlayerById(int id) throws DAOException
     {
         Connection connection = null;
         PreparedStatement ps = null;

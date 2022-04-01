@@ -21,7 +21,7 @@ public class App
 {
     public static void main( String[] args )
     {
-        System.out.println("OOP Project - CA5");
+        System.out.println("OOP Project - CA4");
 
         mainMenu();
     }
@@ -468,7 +468,7 @@ public class App
             Player found = IPlayerDAO.findPlayerById(id);
 
             if(found != null) {
-                IPlayerDAO.deleteById(id);
+                IPlayerDAO.deletePlayerById(id);
                 System.out.println("Player with id " + id + " deleted");
             }
             else {
