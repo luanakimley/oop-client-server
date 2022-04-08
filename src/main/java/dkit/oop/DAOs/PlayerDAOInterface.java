@@ -13,7 +13,7 @@ public interface PlayerDAOInterface
 
     public void deletePlayerById(int id) throws DAOException;
 
-    public void addPlayer(Player player) throws  DAOException;
+    public int addPlayer(Player player) throws  DAOException;
 
     public List<Player> findPlayersByNationality(String nationality) throws DAOException;
 

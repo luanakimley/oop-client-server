@@ -1,8 +1,12 @@
 package dkit.oop.BusinessObjects;
 
+import com.google.gson.JsonSyntaxException;
 import dkit.oop.DAOs.MySqlPlayerDAO;
+import dkit.oop.DTOs.Player;
+import dkit.oop.DTOs.Sector;
 import dkit.oop.Exceptions.DAOException;
 
+import javax.swing.text.PlainDocument;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -10,6 +14,7 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.time.LocalDate;
 import java.util.Scanner;
 
 public class Server
@@ -110,6 +115,65 @@ public class Server
                     {
                         String playersJson = IPlayerDAO.findAllPlayersJson();
                         socketWriter.println(playersJson);
+                    }
+                    else if (message.startsWith("DeleteById"))
+                    {
+                        String[] tokens = message.split(" ");
+                        int id = Integer.parseInt(tokens[1]);
+                        Player player = IPlayerDAO.findPlayerById(id);
+
+                        if (player != null)
+                        {
+                            IPlayerDAO.deletePlayerById(id);
+                            socketWriter.println("Player with ID " + id  + " deleted");
+                        }
+                        else
+                        {
+                            socketWriter.println("Player with ID " + id  + " not found");
+                        }
+                    }
+                    else if(message.startsWith("AddPlayer"))
+                    {
+                        try
+                        {
+                            String[] tokens = message.split(" ");
+                            String name = tokens[1].replace("&", " ");
+                            String nationality = tokens[2];
+                            int date = Integer.parseInt(tokens[3]);
+                            int month = Integer.parseInt(tokens[4]);
+                            int year = Integer.parseInt(tokens[5]);
+                            double height = Double.parseDouble(tokens[6]);
+                            Sector playerSector = null;
+                            switch (tokens[7].toUpperCase())
+                            {
+                                case "MS":
+                                    playerSector = Sector.MENS_SINGLES;
+                                    break;
+                                case "MD":
+                                    playerSector = Sector.MENS_DOUBLE;
+                                    break;
+                                case "WS":
+                                    playerSector = Sector.WOMENS_SINGLE;
+                                    break;
+                                case "WD":
+                                    playerSector = Sector.WOMENS_DOUBLE;
+                                    break;
+                                case "XD":
+                                    playerSector = Sector.MIXED_DOUBLES;
+                                    break;
+                            }
+                            int worldRank = Integer.parseInt(tokens[8]);
+
+                            Player player = new Player(name, nationality, year, month, date, height, playerSector, worldRank);
+
+                            int newPlayerId = IPlayerDAO.addPlayer(player);
+
+                            socketWriter.println(IPlayerDAO.findPlayerByIdJson(newPlayerId));
+                        }
+                        catch (ArrayIndexOutOfBoundsException | NumberFormatException | JsonSyntaxException | NullPointerException e)
+                        {
+                            socketWriter.println("Player not added, make sure command matches the requested format!");
+                        }
                     }
                     else if (message.startsWith("Exit"))
                     {

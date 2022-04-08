@@ -145,6 +145,7 @@ public class MySqlPlayerDAO extends MySqlDAO implements PlayerDAOInterface
 
             ps.setInt(1, id);
 
+
             //Using a PreparedStatement to
             // execute SQL...
             ps.executeUpdate();
@@ -172,10 +173,13 @@ public class MySqlPlayerDAO extends MySqlDAO implements PlayerDAOInterface
     }
 
     @Override
-    public void addPlayer(Player player) throws DAOException
+    public int addPlayer(Player player) throws DAOException
     {
         Connection connection = null;
         PreparedStatement ps = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        int playerId = 0;
 
         try
         {
@@ -195,6 +199,13 @@ public class MySqlPlayerDAO extends MySqlDAO implements PlayerDAOInterface
             //Using a PreparedStatement to
             // execute SQL...
             ps.executeUpdate();
+
+            String selectQuery = "SELECT player_id FROM player ORDER BY player_id DESC LIMIT 1";
+            preparedStatement = connection.prepareStatement(selectQuery);
+            resultSet = preparedStatement.executeQuery();
+
+            if(resultSet.next())
+                playerId = resultSet.getInt("player_id");
         } catch (SQLException e)
         {
             throw new DAOException("addPlayer() " + e.getMessage());
@@ -215,6 +226,8 @@ public class MySqlPlayerDAO extends MySqlDAO implements PlayerDAOInterface
                 throw new DAOException("addPlayer() " + e.getMessage());
             }
         }
+
+        return playerId;
     }
 
     @Override
