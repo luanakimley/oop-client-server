@@ -175,6 +175,11 @@ public class Server
                             socketWriter.println("Player not added, make sure command matches the requested format!");
                         }
                     }
+                    else if (message.startsWith("GetStatistics"))
+                    {
+                        String statisticsJson = IPlayerDAO.getStatisticsJson();
+                        socketWriter.println(statisticsJson);
+                    }
                     else if (message.startsWith("Exit"))
                     {
                         socketWriter.println("Exiting application, goodbye!");

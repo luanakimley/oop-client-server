@@ -12,9 +12,7 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.lang.reflect.Type;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 
 public class Client
@@ -40,7 +38,8 @@ public class Client
                     "> DisplayAll - Display all players\n" +
                     "> AddPlayer [name - if contain space, change with '&'] [nationality] [date of birth - format DD] [month of birth - format MM] [year of birth - format YYYY] [height - in metres] [sector (MS/MD/WS/WD/XD)] [world rank - number]  - Add new player to database\n" +
                     "> DeleteById [id] - Delete player with the given ID (change 'id' to id number)\n" +
-                    "> Exit - Exit application\n");
+                    "> GetStatistics - show various players statistics\n" +
+                    "> Exit - exit application\n");
             String command = in.nextLine();
 
             OutputStream os = socket.getOutputStream();
@@ -134,6 +133,19 @@ public class Client
                         System.out.println("Client message: Response from server - " + newPlayerJson);
                     }
                 }
+                else if (command.startsWith("GetStatistics"))
+                {
+                    String statisticsJson = socketReader.nextLine();
+                    Type playerListType = new TypeToken<LinkedHashMap<String, Object>>(){}.getType();
+
+                    Map<String,Object> statistics = gsonParser.fromJson(statisticsJson, playerListType);
+
+                    System.out.println("Client message: Response from server - displaying players statistics");
+                    for(Map.Entry<String,Object> entry : statistics.entrySet())
+                    {
+                        System.out.println(entry.getKey() + ": " + entry.getValue());
+                    }
+                }
                 else if (command.startsWith("Exit"))
                 {
                     continueLooping = false;
@@ -154,7 +166,8 @@ public class Client
                             "> DisplayAll - Display all players\n" +
                             "> AddPlayer [name] [nationality] [date of birth - format DD] [month of birth - format MM] [year of birth - format YYYY] [height - in metres] [sector (MS/MD/WS/WD/XD)] [world rank - number]  - Add new player to database\n" +
                             "> DeleteById id - Delete player with the given ID (change 'id' to id number)\n" +
-                            "> Exit - Exit application\n");
+                            "> GetStatistics - show various players statistics\n" +
+                            "> Exit - exit application\n");
                     command = in.nextLine();
                     socketWriter.println(command);
                 }
