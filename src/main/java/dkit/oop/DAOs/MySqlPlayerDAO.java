@@ -12,8 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class MySqlPlayerDAO extends MySqlDAO implements PlayerDAOInterface
 {
@@ -305,5 +304,114 @@ public class MySqlPlayerDAO extends MySqlDAO implements PlayerDAOInterface
 
         return gsonParser.toJson(findPlayerById(id));
     }
+
+    @Override
+    public String getStatisticsJson() throws DAOException
+    {
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet resultSet = null;
+        Map<String, Object> statistics = new LinkedHashMap<>();
+        String statisticsJson = null;
+
+        try
+        {
+            //Get connection object using the methods in the super class (MySqlDao.java)...
+            connection = this.getConnection();
+
+
+
+            String[] columnLabels = {"Average height of MS players", "Average height of WS players", "Average height of MD players", "Average height of WD players", "Average height of XD players"};
+            String[] sectors = {"MENS_SINGLES", "WOMENS_SINGLE", "MENS_DOUBLE","WOMENS_DOUBLE", "MIXED_DOUBLES"};
+
+            for(int i=0; i<sectors.length; i++)
+            {
+                String averageHeightQuery = "SELECT AVG(height) ? FROM player WHERE sector= ? ";
+                ps = connection.prepareStatement(averageHeightQuery);
+
+                ps.setString(1, columnLabels[i]);
+                ps.setString(2, sectors[i]);
+
+                resultSet = ps.executeQuery();
+                resultSet.next();
+
+                double averageHeight = resultSet.getDouble(columnLabels[i]);
+
+                statistics.put(columnLabels[i], averageHeight);
+            }
+
+            String query = "SELECT name, MAX(TIMESTAMPDIFF(YEAR, date_of_birth, CURDATE())) 'Youngest player age' FROM player WHERE date_of_birth = (SELECT MAX(date_of_birth) from player)";
+            ps = connection.prepareStatement(query);
+            resultSet = ps.executeQuery();
+            resultSet.next();
+            String name = resultSet.getString("name");
+            int age = resultSet.getInt("Youngest player age");
+            statistics.put("Youngest player name", name);
+            statistics.put("Youngest player age", age);
+
+            query = "SELECT name, MIN(TIMESTAMPDIFF(YEAR, date_of_birth, CURDATE())) 'Oldest player age' FROM player WHERE date_of_birth = (SELECT MIN(date_of_birth) from player)";
+            ps = connection.prepareStatement(query);
+            resultSet = ps.executeQuery();
+            resultSet.next();
+            name = resultSet.getString("name");
+            age = resultSet.getInt("Oldest player age");
+            statistics.put("Oldest player name", name);
+            statistics.put("Oldest player age", age);
+
+            query = "SELECT AVG(TIMESTAMPDIFF(YEAR, date_of_birth, CURDATE())) 'Average age' FROM player";
+            ps = connection.prepareStatement(query);
+            resultSet = ps.executeQuery();
+            resultSet.next();
+            double avgAge = resultSet.getDouble("Average age");
+            statistics.put("Average age of players", avgAge);
+
+            query = "SELECT nationality, COUNT(*) AS 'count' FROM player GROUP BY nationality";
+            ps = connection.prepareStatement(query);
+            resultSet = ps.executeQuery();
+            while(resultSet.next())
+            {
+                String key = "Count of players from " + resultSet.getString("nationality");
+                statistics.put(key, resultSet.getInt("count"));
+            }
+
+            query = "SELECT COUNT(*) AS 'total' FROM player";
+            ps = connection.prepareStatement(query);
+            resultSet = ps.executeQuery();
+            resultSet.next();
+            int total = resultSet.getInt("total");
+            statistics.put("Total number of players", total);
+
+            Gson gsonParser = new Gson();
+
+            statisticsJson = gsonParser.toJson(statistics);
+            
+        } catch (SQLException e)
+        {
+            throw new DAOException("getStatisticsJson() " + e.getMessage());
+        } finally
+        {
+            try
+            {
+                if (resultSet != null)
+                {
+                    resultSet.close();
+                }
+                if (ps != null)
+                {
+                    ps.close();
+                }
+                if (connection != null)
+                {
+                    freeConnection(connection);
+                }
+            } catch (SQLException e)
+            {
+                throw new DAOException("getStatisticsJson() " + e.getMessage());
+            }
+        }
+
+        return statisticsJson;
+    }
+
 
 }

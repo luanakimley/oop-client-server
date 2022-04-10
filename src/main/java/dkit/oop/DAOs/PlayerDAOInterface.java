@@ -20,4 +20,6 @@ public interface PlayerDAOInterface
     public String findAllPlayersJson() throws DAOException;
 
     public String findPlayerByIdJson(int id) throws DAOException;
+
+    public String getStatisticsJson() throws  DAOException;
 }
