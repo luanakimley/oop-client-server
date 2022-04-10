@@ -401,8 +401,6 @@ public class App
         {
             List<Player> playersList = IPlayerDAO.findAllPlayers();
 
-            System.out.println(IPlayerDAO.findAllPlayersJson());
-
             System.out.printf("%-7s%-40s%-30s%-18s%-14s%-20s%-17s\n", "ID", "Name", "Nationality", "Date of Birth", "Height", "Sector", "World Rank");
             System.out.println("====   ====================================    ==========================    ==============    ==========    ================    ============");
             for(Player p : playersList)
