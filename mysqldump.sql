@@ -17,7 +17,7 @@ CREATE TABLE `player` (
 INSERT INTO `player` VALUES (null, "Kevin Sanjaya Sukamuljo", "Indonesia", "1995-08-02", 1.70, "MENS_DOUBLE", 1),
                         (null, "Viktor Axelsen", "Denmark", "1994-01-04", 1.94, "MENS_SINGLES", 1),
                         (null, "Tai Tzu Ying", "Chinese Taipei", "1994-06-20", 1.63, "WOMENS_SINGLE", 1),
-                        (null, "Praveen Jordan", "Indonesia", "1993-04-26", 1.63, "MIXED_DOUBLES", 5),
+                        (null, "Praveen Jordan", "Indonesia", "1993-04-26", 1.81, "MIXED_DOUBLES", 5),
                         (null, "Carolina Marin", "Spain", "1993-06-15", 1.72, "WOMENS_SINGLE", 6),
                         (null, "Chou Tien Chen", "Chinese Taipei", "1990-01-08", 1.8, "MENS_SINGLES", 4),
                         (null, "Anders Antonsen", "Denmark", "1997-04-27", 1.83, "MENS_SINGLES", 3),
