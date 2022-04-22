@@ -164,7 +164,7 @@ public class Client
                     System.out.println("\nPlease enter command:\n" +
                             "> DisplayById id - Display player by ID (change id to id number) \n" +
                             "> DisplayAll - Display all players\n" +
-                            "> AddPlayer [name] [nationality] [date of birth - format DD] [month of birth - format MM] [year of birth - format YYYY] [height - in metres] [sector (MS/MD/WS/WD/XD)] [world rank - number]  - Add new player to database\n" +
+                            "> AddPlayer [name - if contain space, change with '&'] [nationality] [date of birth - format DD] [month of birth - format MM] [year of birth - format YYYY] [height - in metres] [sector (MS/MD/WS/WD/XD)] [world rank - number]  - Add new player to database\n" +
                             "> DeleteById id - Delete player with the given ID (change 'id' to id number)\n" +
                             "> GetStatistics - show various players statistics\n" +
                             "> Exit - exit application\n");
